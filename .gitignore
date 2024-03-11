@@ -1,0 +1,5 @@
+# macOS stores
+.DS_Store
+
+# modules
+node_modules
