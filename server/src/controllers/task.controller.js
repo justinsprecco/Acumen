@@ -10,3 +10,14 @@ export async function create(req, res) {
     res.sendError(500, error);
   }
 }
+
+export async function getAllByProject(req, res) {
+  const projectId = req.params.id;
+
+  try {
+    const tasks = await Task.getAllByProject(projectId);
+    res.sendSuccess(201, tasks);
+  } catch (error) {
+    res.sendError(500, error);
+  }
+}

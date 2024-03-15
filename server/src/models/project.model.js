@@ -11,21 +11,21 @@ projectSchema.statics.create = async function (name, description) {
   const existingProject = await this.findOne({ name });
   if (existingProject) throw new Error("Project already exists");
 
-  const result = new this({ name, description });
-  await result.save();
+  const project = new this({ name, description });
+  await project.save();
 
-  return { projectId: result._id };
+  return { project };
 };
 
 projectSchema.statics.getAll = async function () {
-  const results = await this.find({});
-  return { projects: results };
+  const projects = await this.find({});
+  return { projects };
 };
 
 projectSchema.statics.getById = async function (id) {
-  let result = await this.findById(id);
-  if (!result) throw new Error("Project not found");
-  return { project: result };
+  let project = await this.findById(id);
+  if (!project) throw new Error("Project not found");
+  return { project };
 };
 
 projectSchema.statics.updateById = async function (id, name, description) {
@@ -33,15 +33,15 @@ projectSchema.statics.updateById = async function (id, name, description) {
   if (name !== undefined) updates.name = name;
   if (description !== undefined) updates.description = description;
 
-  let result = await this.findByIdAndUpdate(id, updates, { new: true });
-  if (!result) throw new Error("Project not found");
-  return { project: result };
+  let project = await this.findByIdAndUpdate(id, updates, { new: true });
+  if (!project) throw new Error("Project not found");
+  return { project };
 };
 
 projectSchema.statics.removeById = async function (id) {
-  const result = await this.findByIdAndDelete(id);
-  if (!result) throw new Error("Project not found");
-  return { project: result };
+  const project = await this.findByIdAndDelete(id);
+  if (!project) throw new Error("Project not found");
+  return { project };
 };
 
 const Project = model("Project", projectSchema);

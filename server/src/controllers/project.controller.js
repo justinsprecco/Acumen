@@ -4,8 +4,8 @@ export async function create(req, res) {
   const { name, description } = req.body;
 
   try {
-    const projectId = await Project.create(name, description);
-    res.sendSuccess(201, projectId);
+    const project = await Project.create(name, description);
+    res.sendSuccess(201, project);
   } catch (error) {
     res.sendError(500, error);
   }

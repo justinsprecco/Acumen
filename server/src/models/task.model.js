@@ -21,7 +21,15 @@ taskSchema.statics.create = async function (projectId, name, description) {
   project.tasks.push(task._id);
   await project.save();
 
-  return { taskId: task._id };
+  return { task };
+};
+
+taskSchema.statics.getAllByProject = async function (projectId) {
+  const project = await Project.findById(projectId);
+  if (!project) throw new Error("Project doesn't exist");
+
+  const tasks = await Task.find({ _id: { $in: project.tasks } });
+  return { tasks };
 };
 
 const Task = model("Task", taskSchema);
