@@ -4,11 +4,18 @@
   "description": "",
   "type": "module",
   "scripts": {
+    "server-dev": "cd server && npm run dev",
+    "client-dev": "cd client && npm run dev",
+    "dev": "concurrently \"npm run client-dev\" \"npm run server-dev\"",
     "start": "cd server && npm start",
-    "dev": "cd server && npm run dev",
+    "build": "cd client && npm run build",
+    "acumen": "npm run build && npm run start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Justin Sprecco",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
 }
