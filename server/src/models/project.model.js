@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, startSession } from "mongoose";
 
 const projectSchema = new Schema({
   name: { type: String, required: true, unique: true },
@@ -28,6 +28,13 @@ projectSchema.statics.getById = async function (id) {
   return { project };
 };
 
+projectSchema.statics.getTasks = async function (projectId) {
+  const project = await Project.findById(projectId).populate("tasks");
+  if (!project) throw new Error("Project doesn't exist");
+
+  return { tasks: project.tasks };
+};
+
 projectSchema.statics.updateById = async function (id, name, description) {
   const updates = {};
   if (name !== undefined) updates.name = name;
@@ -39,9 +46,23 @@ projectSchema.statics.updateById = async function (id, name, description) {
 };
 
 projectSchema.statics.removeById = async function (id) {
-  const project = await this.findByIdAndDelete(id);
-  if (!project) throw new Error("Project not found");
-  return { project };
+  const session = await startSession();
+
+  try {
+    session.startTransaction();
+    const project = await this.findByIdAndDelete(id).session(session);
+    if (!project) throw new Error("Project not found");
+
+    await Tasks.deleteMany({ project: id }).session(session);
+
+    await session.commitTransaction();
+    return { project };
+  } catch (error) {
+    await session.abortTransaction();
+    throw error;
+  } finally {
+    session.endSession();
+  }
 };
 
 const Project = model("Project", projectSchema);

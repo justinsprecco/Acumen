@@ -11,12 +11,35 @@ export async function create(req, res) {
   }
 }
 
-export async function getAllByProject(req, res) {
-  const projectId = req.params.id;
+export async function get(req, res) {
+  const id = req.params.id;
 
   try {
-    const tasks = await Task.getAllByProject(projectId);
-    res.sendSuccess(201, tasks);
+    const task = await Task.getById(id);
+    res.sendSuccess(200, task);
+  } catch (error) {
+    res.sendError(500, error);
+  }
+}
+
+export async function update(req, res) {
+  const id = req.params.id;
+  const { name, description } = req.body;
+
+  try {
+    const task = await Task.updateById(id, name, description);
+    res.sendSuccess(200, task);
+  } catch (error) {
+    res.sendError(500, error);
+  }
+}
+
+export async function remove(req, res) {
+  const taskId = req.params.id;
+
+  try {
+    const task = await Task.removeById(taskId);
+    res.sendSuccess(200, task);
   } catch (error) {
     res.sendError(500, error);
   }

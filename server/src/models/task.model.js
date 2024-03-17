@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, startSession } from "mongoose";
 import Project from "./project.model.js";
 
 const taskSchema = new Schema({
@@ -9,27 +9,65 @@ const taskSchema = new Schema({
 });
 
 taskSchema.statics.create = async function (projectId, name, description) {
-  const project = await Project.findById(projectId);
-  if (!project) throw new Error("Project doesn't exist");
+  const session = await startSession();
+  try {
+    session.startTransaction();
 
-  const existingTask = await this.findOne({ project: projectId, name });
-  if (existingTask) throw new Error("Task already exists");
+    const project = await Project.findById(projectId).session(session);
+    if (!project) throw new Error("Project doesn't exist");
 
-  const task = new this({ name, description, project: projectId });
-  await task.save();
+    const existingTask = await this.findOne({
+      project: projectId,
+      name,
+    }).session(session);
+    if (existingTask) throw new Error("Task already exists");
 
-  project.tasks.push(task._id);
-  await project.save();
+    const task = new this({ name, description, project: projectId });
+    await task.save({ session });
 
+    project.tasks.push(task._id);
+    await project.save({ session });
+
+    await session.commitTransaction();
+    return { task };
+  } catch (error) {
+    await session.abortTransaction();
+    throw error;
+  } finally {
+    session.endSession();
+  }
+};
+
+taskSchema.statics.updateById = async function (id, name, description) {
+  const updates = {};
+  if (name !== undefined) updates.name = name;
+  if (description !== undefined) updates.description = description;
+
+  let task = await this.findByIdAndUpdate(id, updates, { new: true });
+  if (!task) throw new Error("Task not found");
   return { task };
 };
 
-taskSchema.statics.getAllByProject = async function (projectId) {
-  const project = await Project.findById(projectId);
-  if (!project) throw new Error("Project doesn't exist");
+taskSchema.statics.removeById = async function (id) {
+  const session = await startSession();
 
-  const tasks = await Task.find({ _id: { $in: project.tasks } });
-  return { tasks };
+  try {
+    session.startTransaction();
+    const task = await this.findByIdAndDelete(id).session(session);
+    if (!task) throw new Error("Task not found");
+
+    await Project.updateOne({ tasks: id }, { $pull: { tasks: id } }).session(
+      session,
+    );
+
+    await session.commitTransaction();
+    return { task };
+  } catch (error) {
+    await session.abortTransaction();
+    throw error;
+  } finally {
+    session.endSession();
+  }
 };
 
 const Task = model("Task", taskSchema);

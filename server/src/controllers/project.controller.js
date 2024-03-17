@@ -31,6 +31,17 @@ export async function get(req, res) {
   }
 }
 
+export async function getTasks(req, res) {
+  const projectId = req.params.id;
+
+  try {
+    const tasks = await Project.getTasks(projectId);
+    res.sendSuccess(200, tasks);
+  } catch (error) {
+    res.sendError(500, error);
+  }
+}
+
 export async function update(req, res) {
   const id = req.params.id;
   const { name, description } = req.body;
