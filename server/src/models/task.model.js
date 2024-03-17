@@ -38,6 +38,12 @@ taskSchema.statics.create = async function (projectId, name, description) {
   }
 };
 
+taskSchema.statics.getById = async function (id) {
+  let task = await this.findById(id);
+  if (!task) throw new Error("Task not found");
+  return { task };
+};
+
 taskSchema.statics.updateById = async function (id, name, description) {
   const updates = {};
   if (name !== undefined) updates.name = name;
