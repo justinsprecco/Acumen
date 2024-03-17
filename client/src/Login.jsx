@@ -36,7 +36,7 @@ const Login = () => {
         throw new Error(`Login request failed: ${response.status}`);
       }
 
-      const responseData = await response.json();
+      //const responseData = await response.json();
     } catch (error) {
       // Handle error
     }
