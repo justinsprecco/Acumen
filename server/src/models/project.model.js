@@ -1,4 +1,5 @@
 import { Schema, model, startSession } from "mongoose";
+import Task from "./task.model.js";
 
 const projectSchema = new Schema({
   name: { type: String, required: true, unique: true },
@@ -53,7 +54,7 @@ projectSchema.statics.removeById = async function (id) {
     const project = await this.findByIdAndDelete(id).session(session);
     if (!project) throw new Error("Project not found");
 
-    await Tasks.deleteMany({ project: id }).session(session);
+    await Task.deleteMany({ project: id }).session(session);
 
     await session.commitTransaction();
     return { project };
