@@ -50,7 +50,7 @@ const Login = () => {
           <h1>Register</h1>
             <form onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="username" >Email</label>
+              <label htmlFor="username" >Username</label>
               <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)}/>
             </div>
             <div>
@@ -66,7 +66,7 @@ const Login = () => {
         </div>) : (<div><h1>Login</h1>
             <form onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="username" >Email</label>
+              <label htmlFor="username" >Username</label>
               <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)}/>
             </div>
             <div>
