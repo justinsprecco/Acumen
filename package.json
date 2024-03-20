@@ -10,5 +10,8 @@
   },
   "keywords": [],
   "author": "Justin Sprecco",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "webpack-dev-server": "^5.0.3"
+  }
 }
