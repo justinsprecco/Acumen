@@ -1,10 +1,7 @@
 export function responseHandler(req, res, next) {
   res.sendSuccess = function (status, data) {
     console.log(`Success on ${req.method} ${req.url}`);
-    res.status(status).json({
-      success: true,
-      data: data,
-    });
+    res.status(status).json(data);
   };
 
   res.sendError = function (status, error) {
