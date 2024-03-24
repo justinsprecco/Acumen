@@ -42,7 +42,14 @@ class Projects extends Component {
 
     return (
       <>
-        <h3 className="text-lg font-semibold p-4">Projects</h3>
+        <div className="flex justify-between items-center">
+          <h3 className="text-left text-lg font-semibold p-4">Projects</h3>
+          <div className="flex gap-2">
+            <Link className="action-btn" to={`/project/edit`}>
+              New Project
+            </Link>
+          </div>
+        </div>
         <div className="border rounded-lg overflow-hidden">
           <div className="relative w-full overflow-auto">
             <table className="w-full text-sm">
@@ -62,11 +69,6 @@ class Projects extends Component {
               </tbody>
             </table>
           </div>
-        </div>
-        <div className="flex gap-2">
-          <Link className="action-btn" to={`/project/edit`}>
-            New Project
-          </Link>
         </div>
       </>
     );

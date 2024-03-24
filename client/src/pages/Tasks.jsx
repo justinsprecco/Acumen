@@ -54,7 +54,14 @@ class Tasks extends Component {
 
     return (
       <>
-        <h3 className="text-lg font-semibold p-4">{project?.name}</h3>
+        <div className="flex justify-between items-center">
+          <h3 className="text-lg font-semibold p-4">{project?.name} - Tasks</h3>
+          <div className="flex gap-2">
+            <Link className="action-btn" to={`/task/create/${id}`}>
+              New Task
+            </Link>
+          </div>
+        </div>
         <div className="border rounded-lg overflow-hidden">
           <div className="relative w-full overflow-auto">
             <table className="w-full text-sm">
@@ -71,11 +78,6 @@ class Tasks extends Component {
               </tbody>
             </table>
           </div>
-        </div>
-        <div className="flex gap-2">
-          <Link className="action-btn" to={`/task/create/${id}`}>
-            New Task
-          </Link>
         </div>
       </>
     );

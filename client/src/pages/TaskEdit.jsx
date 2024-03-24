@@ -65,17 +65,28 @@ class TaskEdit extends Component {
     if (error) return <ErrorMessage error={error} />;
     return (
       <>
-        <h3 className="text-lg font-semibold p-4">Create/Update Task</h3>
+        <h3 className="text-left text-lg font-semibold p-4">
+          Create/Update Task
+        </h3>
         <form
           onSubmit={this.handleSubmit}
           className="border rounded-lg overflow-hidden p-4"
         >
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-slate-900/10 pb-12 md:grid-cols-2">
+            <div className="text-left">
+              <h2 className="text-base font-semibold leading-7 text-slate-900">
+                Task Info
+              </h2>
+              <p className="mt-1 text-sm leading-6 text-slate-600">
+                Create a unique name for your task along with a brief
+                description.
+              </p>
+            </div>
             <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 ">
               <div className="sm:col-span-4">
                 <label
                   htmlFor="name"
-                  className="block text-sm font-medium leading-6 text-slate-900"
+                  className="block text-sm text-left font-medium leading-6 text-slate-900"
                 >
                   Name
                 </label>
@@ -96,7 +107,7 @@ class TaskEdit extends Component {
               <div className="sm:col-span-4">
                 <label
                   htmlFor="description"
-                  className="block text-sm font-medium leading-6 text-slate-900"
+                  className="block text-sm text-left font-medium leading-6 text-slate-900"
                 >
                   Description
                 </label>
@@ -116,11 +127,13 @@ class TaskEdit extends Component {
               </div>
             </div>
           </div>
-          <input
-            type="submit"
-            value="Save Task"
-            className="action-btn cursor-pointer mt-4"
-          />
+          <div className="flex align-left">
+            <input
+              type="submit"
+              value="Save Task"
+              className="action-btn cursor-pointer mt-4"
+            />
+          </div>
         </form>
       </>
     );

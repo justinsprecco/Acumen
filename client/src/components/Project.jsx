@@ -23,10 +23,8 @@ class Project extends Component {
             >
               Edit
             </Link>
-          </div>
-          <div className="flex gap-2">
             <button
-              className="action-btn"
+              className="action-btn hover:bg-red-500 hover:text-red-100"
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
