@@ -1,6 +1,8 @@
 import { Component } from "react";
-import Project from "../components/Project";
+import { Link } from "react-router-dom";
+import ProjectList from "../components/ProjectList";
 import ProjectService from "../api/ProjectService";
+import ErrorMessage from "../components/ErrorMessage";
 
 class Projects extends Component {
   constructor(props) {
@@ -33,31 +35,10 @@ class Projects extends Component {
     }
   };
 
-  projectList = () => {
-    return this.state.projects.map((project) => {
-      return (
-        <Project
-          project={project}
-          deleteProject={() => this.deleteProject(project._id)}
-          key={project._id}
-        />
-      );
-    });
-  };
-
-  thClass = "h-12 px-4 text-left align-middle font-medium";
-
   render() {
-    const { error } = this.state;
+    const { projects, error } = this.state;
 
-    if (error) {
-      return (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
-          <strong className="font-bold">Error: </strong>
-          <span className="block">{error}</span>
-        </div>
-      );
-    }
+    if (error) return <ErrorMessage error={error} />;
 
     return (
       <>
@@ -67,15 +48,25 @@ class Projects extends Component {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b">
-                  <th className={this.thClass}>Name</th>
-                  <th className={this.thClass}>Description</th>
-                  <th className={this.thClass}>Started</th>
-                  <th className={this.thClass}>Action</th>
+                  <th className="data-head">Name</th>
+                  <th className="data-head">Description</th>
+                  <th className="data-head">Started</th>
+                  <th className="data-head">Action</th>
                 </tr>
               </thead>
-              <tbody>{this.projectList()}</tbody>
+              <tbody>
+                <ProjectList
+                  projects={projects}
+                  deleteProject={this.deleteProject}
+                />
+              </tbody>
             </table>
           </div>
+        </div>
+        <div className="flex gap-2">
+          <Link className="action-btn" to={`/project/edit`}>
+            New Project
+          </Link>
         </div>
       </>
     );

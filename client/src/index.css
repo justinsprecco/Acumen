@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.error-div {
+  @apply bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative;
+}
+
+.action-btn {
+  @apply inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border hover:bg-slate-100 h-9 rounded-md px-3;
+}
+
+.data-row {
+  @apply p-4 text-left align-middle;
+}
+
+.data-head {
+  @apply h-12 px-4 text-left align-middle font-medium;
+}

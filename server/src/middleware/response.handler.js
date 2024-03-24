@@ -6,10 +6,7 @@ export function responseHandler(req, res, next) {
 
   res.sendError = function (status, error) {
     console.error(`Error in ${req.method} ${req.url}: ${error.message}`);
-    res.status(status).json({
-      success: false,
-      error: error.message,
-    });
+    res.status(status).json({ error: error.message });
   };
 
   next();

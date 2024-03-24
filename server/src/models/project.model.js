@@ -24,7 +24,7 @@ projectSchema.statics.getAll = async function () {
 };
 
 projectSchema.statics.getById = async function (id) {
-  let project = await this.findById(id);
+  const project = await this.findById(id);
   if (!project) throw new Error("Project not found");
   return { project };
 };
@@ -41,7 +41,7 @@ projectSchema.statics.updateById = async function (id, name, description) {
   if (name !== undefined) updates.name = name;
   if (description !== undefined) updates.description = description;
 
-  let project = await this.findByIdAndUpdate(id, updates, { new: true });
+  const project = await this.findByIdAndUpdate(id, updates, { new: true });
   if (!project) throw new Error("Project not found");
   return { project };
 };

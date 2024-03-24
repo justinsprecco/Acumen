@@ -1,8 +1,10 @@
 import { Component } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import Task from "../components/Task";
 import TaskService from "../api/TaskService";
+import ProjectService from "../api/ProjectService";
+import ErrorMessage from "../components/ErrorMessage";
 
 class Tasks extends Component {
   constructor(props) {
@@ -18,7 +20,7 @@ class Tasks extends Component {
 
   fetchProject = async (id) => {
     try {
-      const project = await TaskService.fetchProject(id);
+      const project = await ProjectService.fetchProject(id);
       this.setState({ project });
     } catch (error) {
       this.setState({ error: error.message });
@@ -56,19 +58,11 @@ class Tasks extends Component {
     });
   };
 
-  thClass = "h-12 px-4 text-left align-middle font-medium";
-
   render() {
     const { project, error } = this.state;
+    const { id } = this.props.params;
 
-    if (error) {
-      return (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
-          <strong className="font-bold">Error: </strong>
-          <span className="block">{error}</span>
-        </div>
-      );
-    }
+    if (error) return <ErrorMessage error={error} />;
 
     return (
       <>
@@ -78,26 +72,31 @@ class Tasks extends Component {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b">
-                  <th className={this.thClass}>Name</th>
-                  <th className={this.thClass}>Description</th>
-                  <th className={this.thClass}>Started</th>
-                  <th className={this.thClass}>Action</th>
+                  <th className="data-head">Name</th>
+                  <th className="data-head">Description</th>
+                  <th className="data-head">Started</th>
+                  <th className="data-head">Action</th>
                 </tr>
               </thead>
               <tbody>{this.taskList()}</tbody>
             </table>
           </div>
         </div>
+        <div className="flex gap-2">
+          <Link className="action-btn" to={`/task/create/${id}`}>
+            New Task
+          </Link>
+        </div>
       </>
     );
   }
-
-  static propTypes = {
-    params: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-    }),
-  };
 }
+
+Tasks.propTypes = {
+  params: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+  }),
+};
 
 function TasksWrapper() {
   const params = useParams();

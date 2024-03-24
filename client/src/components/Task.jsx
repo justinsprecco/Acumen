@@ -1,20 +1,24 @@
+import { Link } from "react-router-dom";
 import { Component } from "react";
 import PropTypes from "prop-types";
-
-const tdClass = "p-4 text-left align-middle";
 
 class Task extends Component {
   render() {
     const { task, deleteTask } = this.props;
     return (
       <tr className="border-b">
-        <td className={tdClass}>{task.name}</td>
-        <td className={tdClass}>{task.description}</td>
-        <td className={tdClass}>{task.creationDate}</td>
-        <td className={tdClass}>
+        <td className="data-row">{task.name}</td>
+        <td className="data-row">{task.description}</td>
+        <td className="data-row">{task.creationDate}</td>
+        <td className="data-row">
+          <div className="flex gap-2">
+            <Link className="action-btn" to={`/task/edit/${task._id}`}>
+              Edit
+            </Link>
+          </div>
           <div className="flex gap-2">
             <button
-              className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border hover:bg-slate-100 h-9 rounded-md px-3"
+              className="action-btn"
               type="button"
               onClick={() => {
                 deleteTask(task._id);
