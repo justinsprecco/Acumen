@@ -2,6 +2,7 @@ import { Component } from "react";
 import { Link, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import Task from "../components/Task";
+import TaskList from "../components/TaskList";
 import TaskService from "../api/TaskService";
 import ProjectService from "../api/ProjectService";
 import ErrorMessage from "../components/ErrorMessage";
@@ -59,7 +60,7 @@ class Tasks extends Component {
   };
 
   render() {
-    const { project, error } = this.state;
+    const { project, tasks, error } = this.state;
     const { id } = this.props.params;
 
     if (error) return <ErrorMessage error={error} />;
@@ -78,7 +79,9 @@ class Tasks extends Component {
                   <th className="data-head">Action</th>
                 </tr>
               </thead>
-              <tbody>{this.taskList()}</tbody>
+              <tbody>
+                <TaskList tasks={tasks} deleteTask={this.deleteTask} />
+              </tbody>
             </table>
           </div>
         </div>
