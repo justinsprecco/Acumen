@@ -1,7 +1,6 @@
 import { Component } from "react";
 import { Link, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
-import Task from "../components/Task";
 import TaskList from "../components/TaskList";
 import TaskService from "../api/TaskService";
 import ProjectService from "../api/ProjectService";
@@ -45,18 +44,6 @@ class Tasks extends Component {
     } catch (error) {
       this.setState({ error: error.message });
     }
-  };
-
-  taskList = () => {
-    return this.state.tasks.map((task) => {
-      return (
-        <Task
-          task={task}
-          deleteTask={() => this.deleteTask(task._id)}
-          key={task._id}
-        />
-      );
-    });
   };
 
   render() {
