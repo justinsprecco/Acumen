@@ -1,19 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Login from './Login'
+import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Projects from "./pages/Projects";
+import Tasks from "./pages/Tasks";
+import ProjectEdit from "./pages/ProjectEdit";
+import TaskEdit from "./pages/TaskEdit";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <Login />
-      </div>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Projects />} />
+        <Route path="/project/:id" element={<Tasks />} />
+        <Route path="/project/edit" element={<ProjectEdit />} />
+        <Route path="/project/edit/:id" element={<ProjectEdit />} />
+        <Route path="/task/create/:projectId" element={<TaskEdit />} />
+        <Route path="/task/edit/:id" element={<TaskEdit />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
