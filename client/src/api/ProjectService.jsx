@@ -1,9 +1,7 @@
-const API_URL = "http://localhost:3000/api";
-
 class ProjectService {
   static async createProject(project) {
     try {
-      const response = await fetch(`${API_URL}/project`, {
+      const response = await fetch(`/api/project`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(project),
@@ -19,7 +17,7 @@ class ProjectService {
 
   static async fetchProjects() {
     try {
-      const response = await fetch(`${API_URL}/project`);
+      const response = await fetch(`/api/project`);
       if (!response.ok) throw new Error("Failed to fetch projects.");
       const data = await response.json();
       return data.projects;
@@ -31,7 +29,7 @@ class ProjectService {
 
   static async fetchProject(id) {
     try {
-      const response = await fetch(`${API_URL}/project/${id}`);
+      const response = await fetch(`/api/project/${id}`);
       if (!response.ok) throw new Error("Failed to fetch project.");
       const data = await response.json();
       return data.project;
@@ -43,7 +41,7 @@ class ProjectService {
 
   static async updateProject(id, project) {
     try {
-      const response = await fetch(`${API_URL}/project/${id}`, {
+      const response = await fetch(`/api/project/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(project),
@@ -59,7 +57,7 @@ class ProjectService {
 
   static async deleteProject(id) {
     try {
-      const response = await fetch(`${API_URL}/project/${id}`, {
+      const response = await fetch(`/api/project/${id}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Failed to delete project.");

@@ -1,9 +1,7 @@
-const API_URL = "http://localhost:3000/api";
-
 class TaskService {
   static async createTask(id, task) {
     try {
-      const response = await fetch(`${API_URL}/task/${id}`, {
+      const response = await fetch(`/api/task/${id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(task),
@@ -19,7 +17,7 @@ class TaskService {
 
   static async fetchTasks(id) {
     try {
-      const response = await fetch(`${API_URL}/project/${id}/tasks`);
+      const response = await fetch(`/api/project/${id}/tasks`);
       if (!response.ok) throw new Error("Failed to fetch tasks.");
       const data = await response.json();
       return data.tasks;
@@ -31,7 +29,7 @@ class TaskService {
 
   static async fetchTask(id) {
     try {
-      const response = await fetch(`${API_URL}/task/${id}`);
+      const response = await fetch(`/api/task/${id}`);
       if (!response.ok) throw new Error("Failed to fetch task.");
       const data = await response.json();
       return data.task;
@@ -43,7 +41,7 @@ class TaskService {
 
   static async updateTask(id, task) {
     try {
-      const response = await fetch(`${API_URL}/task/${id}`, {
+      const response = await fetch(`/api/task/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(task),
@@ -59,7 +57,7 @@ class TaskService {
 
   static async deleteTask(id) {
     try {
-      const response = await fetch(`${API_URL}/task/${id}`, {
+      const response = await fetch(`/api/task/${id}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Failed to delete task.");
